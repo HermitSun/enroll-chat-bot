@@ -6,7 +6,7 @@
              max-width="45"
              max-height="45"
              alt="LOGO"></v-img>
-      <v-toolbar-title>神秘的聊天机器人</v-toolbar-title>
+      <v-toolbar-title style="cursor: default">神秘的聊天机器人</v-toolbar-title>
       <v-spacer></v-spacer>
       <!--TODO 跳转到接口对应的主页-->
       <v-btn icon @click="$router.push('/main-home')">

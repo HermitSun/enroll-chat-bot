@@ -1,11 +1,19 @@
 <template>
   <v-container fluid id="footer-wrapper">
+    <!--验证提示-->
+    <v-tooltip v-model="showEmptyTip" top>
+      <template #activator="{ on }">
+        <div v-on="on" id="tip"></div>
+      </template>
+      <span>请输入搜索内容</span>
+    </v-tooltip>
+    <!--输入部分-->
     <v-layout>
       <v-input>
         <!--前置按钮-->
         <template #prepend>
           <v-btn icon flat color="#9E9E9E"
-                 @click="doSomething">
+                 @click="showContact = !showContact">
             <v-icon large>control_point
             </v-icon>
           </v-btn>
@@ -13,8 +21,8 @@
         <!--输入框-->
         <v-textarea v-model="questionContent"
                     :rules="[rules.required]"
-                    label="您想问什么？"
                     rows="1"
+                    @blur="questionContent ? showEmptyTip = false:showEmptyTip = true"
                     validate-on-blur
                     outline auto-grow clearable>
         </v-textarea>
@@ -28,11 +36,18 @@
         </template>
       </v-input>
     </v-layout>
+    <!--联系客服-->
+    <v-fab-transition>
+      <v-btn absolute dark fab top left small color="pink"
+             v-show="showContact">
+        <v-icon>call</v-icon>
+      </v-btn>
+    </v-fab-transition>
     <!--错误提示-->
-    <v-snackbar v-model="showError" multi-line>
+    <v-snackbar v-model="showErrorSnackbar" multi-line>
       系统好像出了点状况……刷新一下试试？
       <v-btn color="blue" flat
-             @click="showError = false">关闭
+             @click="showErrorSnackbar = false">关闭
       </v-btn>
     </v-snackbar>
   </v-container>
@@ -45,23 +60,29 @@
       return {
         questionContent: '', // 输入内容
         rules: { // 输入校验
-          required: v => !!v || '输入内容不能为空'
+          required: v => !!v || '请输入搜索内容'
         },
-        showError: false // 显示错误弹窗
+        showContact: true, // 显示联系客服
+        showEmptyTip: false, // 显示为空提示
+        showErrorSnackbar: false // 显示错误弹窗
       };
     },
     methods: {
       doSomething () {
-        // 也许将来会做点什么，但现在还没说
+        // 也许将来会做点什么，但现在啥都不做
       },
       doAsk () {
         // 将输入内容传到Vuex里去
+        if (!this.questionContent) {
+          this.showEmptyTip = true;
+          return;
+        }
         this.$store.dispatch('updateQuestionContent', this.questionContent)
           .then(() => {
-            // 啥都不做
+            this.questionContent = '';
           })
           .catch(() => {
-            this.showError = true;
+            this.showErrorSnackbar = true;
           });
       }
     }
@@ -70,6 +91,7 @@
 
 <style lang="scss">
   #footer-wrapper {
+    padding-left: 8px !important;
     padding-bottom: 0 !important;
     border: 1px #E3F2FD solid;
     background-color: white;
