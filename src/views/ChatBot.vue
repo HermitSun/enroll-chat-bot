@@ -1,7 +1,9 @@
 <template>
   <div class="wrapper">
     <!--网络异常提示-->
-    <v-snackbar v-model="showErrorSnackbar" multi-line>
+    <v-snackbar v-model="showErrorSnackbar"
+                color="error"
+                multi-line>
       网络好像出了点状况……刷新一下试试？
       <v-btn color="blue" flat
              @click="showErrorSnackbar = false">关闭
@@ -10,6 +12,12 @@
     <!--具体的聊天框-->
     <v-container fluid grid-list-xl>
       <v-layout row wrap ref="main-wrapper">
+        <!--欢迎语-->
+        <v-flex xs8>
+          <v-card light>
+            <v-card-text>您想问什么？</v-card-text>
+          </v-card>
+        </v-flex>
         <template v-for="i in questions.length">
           <!--问题-->
           <v-flex xs8 offset-xs4 :key="'q'+i">
@@ -41,7 +49,8 @@
     data () {
       return {
         answers: [''], // 问题的答案；这里有一个很奇怪的地方，因为页面渲染早于数据获取，如果没有这个空串就会报undefined
-        showErrorSnackbar: false // 错误提示
+        showErrorSnackbar: false, // 错误提示
+        showWelcome: true
       };
     },
     computed: {
