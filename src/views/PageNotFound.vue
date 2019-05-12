@@ -3,9 +3,19 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex';
+
   export default {
-    name: 'PageNotFound'
-  }
+    name: 'PageNotFound',
+    mounted () {
+      this.clearQuestion();
+    },
+    methods: {
+      ...mapActions({
+        clearQuestion: 'clearQuestionContent'
+      })
+    }
+  };
 </script>
 
 <style scoped>

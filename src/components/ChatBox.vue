@@ -13,7 +13,7 @@
         <!--前置按钮-->
         <template #prepend>
           <v-btn icon flat color="grey darken-1"
-                 @click="showContact = !showContact">
+                 @click="changeShowContact(!showContact)">
             <v-icon large>control_point
             </v-icon>
           </v-btn>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
+  import { mapState, mapActions } from 'vuex';
 
   export default {
     name: 'ChatBox',
@@ -65,14 +65,17 @@
         rules: { // 输入校验
           required: v => !!v || '请输入搜索内容'
         },
-        showContact: false, // 显示联系客服
         showEmptyTip: false, // 显示为空提示
         showErrorSnackbar: false // 显示错误弹窗
       };
     },
+    computed: {
+      ...mapState(['showContact']) // 显示联系客服
+    },
     methods: {
       ...mapActions({
-        updateQuestion: 'updateQuestionContent'
+        updateQuestion: 'updateQuestionContent',
+        changeShowContact: 'changeShowContact'
       }),
       doAsk () {
         // 将输入内容传到Vuex里去
@@ -80,6 +83,7 @@
           this.showEmptyTip = true;
           return;
         }
+        this.changeShowContact(false);
         this.updateQuestion(this.questionContent)
           .then(() => {
             this.questionContent = '';

@@ -15,14 +15,15 @@
         <v-icon large>home</v-icon>
       </v-btn>
     </v-toolbar>
+    <!--TODO:弹性伸缩的聊天内容和输入框-->
     <!--聊天内容-->
-    <v-content>
+    <v-content ref="body">
       <v-container fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
     <!--底部输入框-->
-    <v-footer app>
+    <v-footer app ref="footer">
       <ChatBox></ChatBox>
     </v-footer>
   </v-app>

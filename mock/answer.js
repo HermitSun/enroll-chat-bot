@@ -1,15 +1,21 @@
 const router = require('koa-router')();
 
 router.get('/answer', async (ctx) => {
-  let answer = '找不到对应的答案……要不要问问人工客服？';
+  let res = {
+    success: true,
+    answer: ''
+  };
   if (ctx.query.question === '测试') {
-    answer = '测试';
+    res.answer = '测试';
   } else if (ctx.query.question === '吃什么呀同学') {
-    answer = '一块钱米饭';
+    res.answer = '一块钱米饭';
   } else if (ctx.query.question === 'zznb') {
-    answer = 'gkdgkd';
+    res.answer = 'gkdgkd';
+  } else {
+    res.success = false;
+    res.answer = '找不到对应的答案……要不要问问人工客服？';
   }
-  ctx.body = answer;
+  ctx.body = res;
 });
 
 module.exports = router;
