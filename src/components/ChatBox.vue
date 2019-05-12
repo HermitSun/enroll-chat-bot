@@ -12,7 +12,7 @@
       <v-input>
         <!--前置按钮-->
         <template #prepend>
-          <v-btn icon flat color="#9E9E9E"
+          <v-btn icon flat color="grey darken-1"
                  @click="showContact = !showContact">
             <v-icon large>control_point
             </v-icon>
@@ -28,7 +28,7 @@
         </v-textarea>
         <!--后置按钮-->
         <template #append>
-          <v-btn icon flat color="blue"
+          <v-btn icon flat color="blue darken-2"
                  @click="doAsk">
             <v-icon large>near_me
             </v-icon>
@@ -39,6 +39,7 @@
     <!--联系客服-->
     <v-fab-transition>
       <v-btn absolute dark fab top left small color="pink"
+             @click="doContact"
              v-show="showContact">
         <v-icon>call</v-icon>
       </v-btn>
@@ -54,6 +55,8 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex';
+
   export default {
     name: 'ChatBox',
     data () {
@@ -62,28 +65,32 @@
         rules: { // 输入校验
           required: v => !!v || '请输入搜索内容'
         },
-        showContact: true, // 显示联系客服
+        showContact: false, // 显示联系客服
         showEmptyTip: false, // 显示为空提示
         showErrorSnackbar: false // 显示错误弹窗
       };
     },
     methods: {
-      doSomething () {
-        // 也许将来会做点什么，但现在啥都不做
-      },
+      ...mapActions({
+        updateQuestion: 'updateQuestionContent'
+      }),
       doAsk () {
         // 将输入内容传到Vuex里去
         if (!this.questionContent) {
           this.showEmptyTip = true;
           return;
         }
-        this.$store.dispatch('updateQuestionContent', this.questionContent)
+        this.updateQuestion(this.questionContent)
           .then(() => {
             this.questionContent = '';
           })
           .catch(() => {
             this.showErrorSnackbar = true;
           });
+      },
+      doContact () {
+        // 联系客服
+        console.log('客服出来挨打');
       }
     }
   };

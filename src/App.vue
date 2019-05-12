@@ -1,4 +1,6 @@
 <template>
+  <!--这次实际上是偷懒了，没有完全组件化，这个入口文件实在是丑陋-->
+  <!--TODO: 优化结构-->
   <v-app>
     <!--顶部导航栏-->
     <v-toolbar color="blue" fixed dark app>

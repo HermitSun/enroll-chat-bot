@@ -10,13 +10,13 @@ export default new Vuex.Store({
     questionContent: []
   },
   mutations: {
-    updateQuestionContent (state, content) {
-      state.questionContent.push(content);
+    updateQuestionContent (state, question) {
+      state.questionContent.push(question);
     }
   },
   actions: {
-    updateQuestionContent (context, content) {
-      context.commit('updateQuestionContent', content);
+    updateQuestionContent (context, question) {
+      context.commit('updateQuestionContent', question);
     }
   }
 });
