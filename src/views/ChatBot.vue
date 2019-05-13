@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <v-container fluid grid-list-xl>
     <!--网络异常提示-->
     <v-snackbar v-model="showErrorSnackbar"
                 color="error"
@@ -10,32 +10,30 @@
       </v-btn>
     </v-snackbar>
     <!--具体的聊天框-->
-    <v-container fluid grid-list-xl>
-      <v-layout row wrap ref="main-wrapper">
-        <!--欢迎语-->
-        <v-flex xs8>
-          <v-card light>
-            <v-card-text>您想问什么？</v-card-text>
+    <v-layout row wrap>
+      <!--欢迎语-->
+      <v-flex xs8>
+        <v-card light>
+          <v-card-text>您想问什么？</v-card-text>
+        </v-card>
+      </v-flex>
+      <template v-for="i in questions.length">
+        <!--问题-->
+        <v-flex xs8 offset-xs4 :key="'q'+i">
+          <v-card dark color="blue">
+            <v-card-text>{{questions[i - 1]}}</v-card-text>
           </v-card>
         </v-flex>
-        <template v-for="i in questions.length">
-          <!--问题-->
-          <v-flex xs8 offset-xs4 :key="'q'+i">
-            <v-card dark color="blue">
-              <v-card-text>{{questions[i - 1]}}</v-card-text>
-            </v-card>
-          </v-flex>
-          <!--回答-->
-          <v-flex xs8 :key="'a'+i">
-            <v-card light>
-              <v-card-text>{{answers[i]}}</v-card-text>
-            </v-card>
-          </v-flex>
-        </template>
-        <!--测试-->
-      </v-layout>
-    </v-container>
-  </div>
+        <!--回答-->
+        <v-flex xs8 :key="'a'+i">
+          <v-card light>
+            <v-card-text>{{answers[i]}}</v-card-text>
+          </v-card>
+        </v-flex>
+      </template>
+      <!--测试-->
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -64,11 +62,11 @@
       // 而且有一点，因为JS传递引用，所以发生变化的时候原数组也变了，不能监听数组，而是监听这个变化
       questions (newQuestion) {
         this.doSearch(newQuestion[newQuestion.length - 1]);
-        // TODO: 解决这问题
+        // 解决这问题。已解决，用Vuetify的scroll指令。
         // 滚动条自动滚动，问题在于不能$nextTick，看起来DOM似乎没有重绘?
         // 似乎也并不是。超过1699px后不动了。
-        const container = this.$refs['main-wrapper'];
-        container.scrollTop = container.scrollHeight;
+        // const container = this.$refs['main-wrapper'];
+        // container.scrollTop = container.scrollHeight;
       }
     },
     methods: {
@@ -81,6 +79,14 @@
               this.changeShowContact(true);
             }
             this.answers.push(res.data.answer);
+            this.$vuetify.goTo(
+              Number.MAX_SAFE_INTEGER,
+              {
+                duration: 300,
+                offset: 0,
+                easing: 'easeInOutCubic'
+              }
+            );
           }).catch(() => {
           this.showErrorSnackbar = true;
         });

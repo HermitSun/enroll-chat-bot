@@ -1,6 +1,5 @@
 <template>
   <!--这次实际上是偷懒了，没有完全组件化，这个入口文件实在是丑陋-->
-  <!--TODO: 优化结构-->
   <v-app>
     <!--顶部导航栏-->
     <v-toolbar color="blue" fixed dark app>
@@ -17,13 +16,13 @@
     </v-toolbar>
     <!--TODO:弹性伸缩的聊天内容和输入框-->
     <!--聊天内容-->
-    <v-content ref="body">
+    <v-content>
       <v-container fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
     <!--底部输入框-->
-    <v-footer app ref="footer">
+    <v-footer app>
       <ChatBox></ChatBox>
     </v-footer>
   </v-app>
