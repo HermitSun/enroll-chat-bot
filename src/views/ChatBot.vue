@@ -79,6 +79,7 @@
               this.changeShowContact(true);
             }
             this.answers.push(res.data.answer);
+            // 页面滚动到最底部
             this.$vuetify.goTo(
               Number.MAX_SAFE_INTEGER,
               {
@@ -87,9 +88,10 @@
                 easing: 'easeInOutCubic'
               }
             );
-          }).catch(() => {
-          this.showErrorSnackbar = true;
-        });
+          })
+          .catch(() => {
+            this.showErrorSnackbar = true;
+          });
       }
     }
   };
