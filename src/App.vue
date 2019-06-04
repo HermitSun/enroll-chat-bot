@@ -2,17 +2,12 @@
   <!--这次实际上是偷懒了，没有完全组件化，这个入口文件实在是丑陋-->
   <v-app>
     <!--顶部导航栏-->
-    <v-toolbar color="blue" fixed dark app>
-      <v-img :src="require('./assets/images/logo.svg')"
-             max-width="45"
-             max-height="45"
+    <v-toolbar color="#6A005F" fixed dark app>
+      <v-img :src="require('./assets/images/NJULogo.png')"
+             max-width="100"
+             max-height="60"
              alt="LOGO"></v-img>
-      <v-toolbar-title style="cursor: default">神秘的聊天机器人</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <!--TODO 跳转到接口对应的主页-->
-      <v-btn icon @click="$router.push('/main-home')">
-        <v-icon large>home</v-icon>
-      </v-btn>
+      <v-toolbar-title style="cursor: default">南大招生</v-toolbar-title>
     </v-toolbar>
     <!--TODO:弹性伸缩的聊天内容和输入框-->
     <!--聊天内容-->

@@ -2,10 +2,11 @@
 
 import Vue from 'vue';
 import axios from 'axios';
+import store from '@/store';
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'production'
-  ? 'http://101.132.35.81:3242' // 此处应换成甲方提供的服务器IP
-  : 'http://localhost:3242';
+  ? 'https://weixin.njunova.com/api'
+  : 'https://weixin.njunova.com/api';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -19,7 +20,8 @@ const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   function (config) {
-    // Do something before request is sent
+    let token = store.state.token;
+    config.headers.Authorization = `bearer ${token}`;
     return config;
   },
   function (error) {

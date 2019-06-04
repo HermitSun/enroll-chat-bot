@@ -5,7 +5,7 @@
                 color="error"
                 multi-line>
       网络好像出了点状况……刷新一下试试？
-      <v-btn color="blue" flat
+      <v-btn color="#6A005F" flat
              @click="showErrorSnackbar = false">关闭
       </v-btn>
     </v-snackbar>
@@ -20,14 +20,22 @@
       <template v-for="i in questions.length">
         <!--问题-->
         <v-flex xs8 offset-xs4 :key="'q'+i">
-          <v-card dark color="blue">
-            <v-card-text>{{questions[i - 1]}}</v-card-text>
+          <v-card dark color="#6A005F">
+            <v-card-text>
+              <template v-for="j in getMsgLength(questions[i - 1])">
+                <div :key="j">{{questions[i - 1].substring((j - 1) * 17, j * 17)}}</div>
+              </template>
+            </v-card-text>
           </v-card>
         </v-flex>
         <!--回答-->
         <v-flex xs8 :key="'a'+i">
           <v-card light>
-            <v-card-text>{{answers[i]}}</v-card-text>
+            <v-card-text v-if="answers[i]">
+              <template v-for="j in getMsgLength(answers[i])">
+                <div :key="j">{{answers[i].substring((j - 1) * 17, j * 17)}}</div>
+              </template>
+            </v-card-text>
           </v-card>
         </v-flex>
       </template>
@@ -71,13 +79,14 @@
     },
     methods: {
       ...mapActions(['changeShowContact']),
-      doSearch (question) {
+      async doSearch (question) {
         // 搜索
-        Search.getAnswer(question)
-          .then(res => {
-            if (!res.data.success) {
-              this.changeShowContact(true);
-            }
+        try {
+          let res = await Search.getAnswer(question);
+          if (res.code !== 200) {
+            this.changeShowContact(true);
+            this.push('网络出了点问题……刷新一下试试？');
+          } else {
             this.answers.push(res.data.answer);
             // 页面滚动到最底部
             this.$vuetify.goTo(
@@ -88,10 +97,13 @@
                 easing: 'easeInOutCubic'
               }
             );
-          })
-          .catch(() => {
-            this.showErrorSnackbar = true;
-          });
+          }
+        } catch (err) {
+          this.showErrorSnackbar = true;
+        }
+      },
+      getMsgLength (question) {
+        return Math.ceil(question.length / 17);
       }
     }
   };

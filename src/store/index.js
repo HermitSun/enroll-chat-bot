@@ -11,6 +11,9 @@ export default new Vuex.Store({
     showContact: false // 是否显示咨询按钮
   },
   mutations: {
+    updateToken (state, token) {
+      state.token = token;
+    },
     updateQuestionContent (state, question) {
       state.questionContent.push(question);
     },
@@ -22,6 +25,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    updateToken (context, token) {
+      context.commit('updateToken', token);
+    },
     updateQuestionContent (context, question) {
       context.commit('updateQuestionContent', question);
     },

@@ -12,7 +12,7 @@
       <v-input>
         <!--前置按钮-->
         <template #prepend>
-          <v-btn icon flat color="grey darken-1"
+          <v-btn icon flat color="#6A005F"
                  @click="changeShowContact(!showContact)">
             <v-icon large>control_point
             </v-icon>
@@ -22,13 +22,13 @@
         <v-textarea v-model="questionContent"
                     :rules="[rules.required]"
                     rows="1"
-                    @blur="questionContent ? showEmptyTip = false:showEmptyTip = true"
+                    @blur="questionContent ? showEmptyTip = false : showEmptyTip = true"
                     validate-on-blur
                     outline auto-grow clearable>
         </v-textarea>
         <!--后置按钮-->
         <template #append>
-          <v-btn icon flat color="blue darken-2"
+          <v-btn icon flat color="#6A005F"
                  @click="doAsk">
             <v-icon large>near_me
             </v-icon>
@@ -115,7 +115,7 @@
 
     .v-icon {
       &:hover {
-        color: #0D47A1;
+        color: #6A005F;
       }
     }
 
