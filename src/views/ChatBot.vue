@@ -22,9 +22,7 @@
         <v-flex xs8 offset-xs4 :key="'q'+i">
           <v-card dark color="#6A005F">
             <v-card-text>
-              <template v-for="j in getMsgLength(questions[i - 1])">
-                <div :key="j">{{questions[i - 1].substring((j - 1) * 17, j * 17)}}</div>
-              </template>
+              <div>{{questions[i - 1]}}</div>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -32,9 +30,7 @@
         <v-flex xs8 :key="'a'+i">
           <v-card light>
             <v-card-text v-if="answers[i]">
-              <template v-for="j in getMsgLength(answers[i])">
-                <div :key="j">{{answers[i].substring((j - 1) * 17, j * 17)}}</div>
-              </template>
+              <div>{{answers[i]}}</div>
             </v-card-text>
           </v-card>
         </v-flex>
