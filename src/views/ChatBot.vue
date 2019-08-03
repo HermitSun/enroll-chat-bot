@@ -22,7 +22,7 @@
         <v-flex xs8 offset-xs4 :key="'q'+i">
           <v-card dark color="#6A005F">
             <v-card-text>
-              <div>{{questions[i - 1]}}</div>
+              <div v-html="linedString(questions[i - 1])"></div>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -30,7 +30,7 @@
         <v-flex xs8 :key="'a'+i">
           <v-card light>
             <v-card-text v-if="answers[i]">
-              <div>{{answers[i]}}</div>
+              <div v-html="linedString(answers[i])"></div>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -100,6 +100,9 @@
       },
       getMsgLength (question) {
         return Math.ceil(question.length / 17);
+      },
+      linedString (raw) {
+        return raw.replace(/(\r\n|\n|\r)/gm, '<br>');
       }
     }
   };
